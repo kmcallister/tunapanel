@@ -1,29 +1,6 @@
 use std::fmt::Display;
 
-use handlebars::Handlebars;
-
-pub type HTML = String;
-
-lazy_static! {
-    static ref HANDLEBARS: Handlebars = {
-        let mut handlebars = Handlebars::new();
-
-        macro_rules! register {
-            ($name:expr) => {
-                handlebars.register_template_string(
-                    $name,
-                    include_str!(concat!("templates/", $name, ".html")))
-                .unwrap();
-            }
-        }
-
-        register!("text_box");
-        register!("checkbox");
-        register!("button");
-
-        handlebars
-    };
-}
+use templates::{HANDLEBARS, HTML};
 
 #[derive(Serialize)]
 struct TextBoxFields<'a> {

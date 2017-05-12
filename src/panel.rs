@@ -1,6 +1,6 @@
 use serde::de::DeserializeOwned;
 
-use widget::HTML;
+use templates::HTML;
 
 pub trait Panel: DeserializeOwned {
     fn widgets() -> HTML;
