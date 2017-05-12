@@ -1,5 +1,8 @@
 use handlebars::Handlebars;
 
+/// Data type representing HTML source.
+///
+/// For now this is just a `String`.
 pub type HTML = String;
 
 lazy_static! {

@@ -1,3 +1,8 @@
+//! Widgets which can make up a panel.
+//!
+//! Basic data types are supported -- see the `Controllable` trait.
+//! In addition there are some special widgets.
+
 use std::fmt::Display;
 
 use templates::{HANDLEBARS, HTML};
@@ -35,6 +40,7 @@ struct ButtonFields<'a> {
     label: &'a str,
 }
 
+/// Trait for values controllable by a panel.
 pub trait Controllable {
     fn widget(&self, name: &str, label: &str) -> HTML;
 }
@@ -78,10 +84,15 @@ controllable_number!(usize);
 controllable_number!(f32);
 controllable_number!(f64);
 
+/// A button.
+///
+/// `button.0` is a `bool` indicating whether the update happened
+/// as a result of the user clicking this button.
 #[derive(Debug, Deserialize)]
 pub struct Button(pub bool);
 
 impl Button {
+    /// Create a button.
     pub fn new() -> Button {
         Button(false)
     }

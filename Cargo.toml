@@ -1,5 +1,11 @@
 [package]
 name = "tunapanel"
+repository = "https://github.com/kmcallister/tunapanel"
+readme = "README.md"
+keywords = ["web", "control", "panel", "control-panel"]
+categories = ["web-programming::http-server", "config", "gui"]
+license = "MIT/Apache-2.0"
+description = "Autogenerate live Web-based control panels"
 version = "0.1.0"
 authors = ["Keegan McAllister <mcallister.keegan@gmail.com>"]
 

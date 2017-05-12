@@ -1,3 +1,5 @@
+//! Custom error types.
+
 use std::io;
 use hyper;
 use serde_json;

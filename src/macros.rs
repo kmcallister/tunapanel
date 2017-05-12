@@ -1,3 +1,6 @@
+//! tunapanel macros.
+
+/// The core tunapanel macro.
 #[macro_export]
 macro_rules! tunapanel {
     (

@@ -1,3 +1,9 @@
+//! Autogenerate live Web-based control panels.
+//!
+//! See `README.md` and `examples/*`.
+
+#![deny(warnings)]
+
 extern crate serde;
 extern crate serde_json;
 extern crate hyper;

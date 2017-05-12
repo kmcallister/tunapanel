@@ -10,8 +10,16 @@ use serde_json;
 use errors::Result;
 use panel::{Panel, panel_html};
 
+/// Server configuration.
 pub struct ServerConfig {
+    /// Whether to print messages, such as the listen address.
     pub verbose: bool,
+
+    /// IP address and port on which to listen.
+    ///
+    /// This is a string of the form `"127.0.0.1:1337"`.
+    /// Use `"0.0.0.0:1337"` to listen on all network
+    /// interfaces.
     pub listen_on: String,
 }
 
@@ -24,6 +32,9 @@ impl Default for ServerConfig {
     }
 }
 
+/// Serve a panel.
+///
+/// `f` is the callback for panel updates.
 pub fn serve<P, F>(f: F) -> Result<()>
     where P: Panel,
           F: Fn(P) + Sync + Send + 'static,
@@ -31,6 +42,9 @@ pub fn serve<P, F>(f: F) -> Result<()>
     serve_with_config::<P, _>(Default::default(), f)
 }
 
+/// Serve a panel and configure the server.
+///
+/// `f` is the callback for panel updates.
 pub fn serve_with_config<P, F>(cfg: ServerConfig, f: F) -> Result<()>
     where P: Panel,
           F: Fn(P) + Sync + Send + 'static,
