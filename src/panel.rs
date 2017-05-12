@@ -1,17 +1,28 @@
 use serde::de::DeserializeOwned;
 
-use templates::HTML;
+use templates::{HTML, HANDLEBARS};
 
 pub trait Panel: DeserializeOwned {
+    fn title() -> &'static str;
+
     fn widgets() -> HTML;
 }
 
+#[derive(Serialize)]
+struct PanelFields {
+    title: &'static str,
+}
+
 pub fn panel_html<P: Panel>() -> HTML {
+    let fields = PanelFields {
+        title: <P as Panel>::title(),
+    };
+
     let mut html = String::new();
 
-    html.push_str(::HTML_HEADER);
+    html.push_str(&HANDLEBARS.render("header", &fields).unwrap());
     html.push_str(&<P as Panel>::widgets());
-    html.push_str(::HTML_FOOTER);
+    html.push_str(&HANDLEBARS.render("footer", &fields).unwrap());
 
     html
 }
@@ -22,6 +33,7 @@ mod test {
     use widget::Button;
 
     tunapanel! {
+        #[title = "test panel"]
         #[derive(Debug)]
         struct Panel {
             #[label = "A float"]
@@ -50,6 +62,7 @@ mod test {
     fn panel_html() {
         let html = super::panel_html::<Panel>();
 
+        assert!(html.contains(r#"<title>test panel</title>"#));
         assert!(html.contains(r#"tunapanel_name="x""#));
         assert!(html.contains(r#"tunapanel_name="y""#));
         assert!(html.contains(r#"<td id="tunapanel_status"></td>"#));
@@ -58,6 +71,7 @@ mod test {
     }
 
     tunapanel! {
+        #[title = "test panel"]
         struct EscTest {
             #[label = "Test \' escaping <<>"]
             x: f32 = 0.0,
@@ -77,6 +91,7 @@ mod test {
     }
 
     tunapanel! {
+        #[title = "test panel"]
         struct Types {
             #[label = "u8"]    f_u8:    u8    = 0,
             #[label = "u16"]   f_u16:   u16   = 0,

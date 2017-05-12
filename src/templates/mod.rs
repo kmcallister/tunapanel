@@ -15,6 +15,8 @@ lazy_static! {
             }
         }
 
+        register!("header");
+        register!("footer");
         register!("text_box");
         register!("checkbox");
         register!("button");

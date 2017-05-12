@@ -1,6 +1,7 @@
 #[macro_export]
 macro_rules! tunapanel {
     (
+        #[title = $title:expr]
         $(#[$attr:meta])*
         struct $struct_name:ident {
             $(
@@ -28,6 +29,10 @@ macro_rules! tunapanel {
         }
 
         impl $crate::Panel for $struct_name {
+            fn title() -> &'static str {
+                $title
+            }
+
             fn widgets() -> $crate::HTML {
                 use $crate::widget::Controllable;
 
