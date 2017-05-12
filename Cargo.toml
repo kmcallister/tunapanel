@@ -1,0 +1,9 @@
+[package]
+name = "tunapanel"
+version = "0.1.0"
+authors = ["Keegan McAllister <mcallister.keegan@gmail.com>"]
+
+[dependencies]
+serde = "1"
+serde_derive = "1"
+serde_json = "1"

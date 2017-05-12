@@ -1,0 +1,58 @@
+<div>
+    Status: <span id="tunapanel_status"></span>
+</div>
+
+<script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+</script>
+
+<style>
+#tunapanel_status {
+    font-weight: bold;
+}
+
+.tunapanel_success {
+    color: #00ff00;
+}
+
+.tunapanel_failure {
+    color: #ff0000;
+}
+</style>
+
+<script>
+$(function () {
+    function update_complete(jqxhr, status) {
+        let elem = $("#tunapanel_status");
+        elem.text(status);
+
+        if (status === "success") {
+            elem.attr("class", "tunapanel_success");
+        } else {
+            elem.attr("class", "tunapanel_failure");
+        }
+    }
+
+    function update() {
+        let obj = {};
+
+        $(".tunapanel_widget").each(function (i, elem) {
+            obj[elem.getAttribute("tunapanel_name")] = elem.value;
+        });
+
+        $.ajax({
+            url:      "/update",
+            method:   "PUT",
+            data:     JSON.stringify(obj),
+            complete: update_complete,
+            timeout:  5000,
+        });
+    }
+
+    $(".tunapanel_widget")
+        .change(update)
+        .keyup(update);
+});
+</script>
