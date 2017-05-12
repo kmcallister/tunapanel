@@ -14,6 +14,9 @@ tunapanel! {
 
         #[label = "A string"]
         y: String = String::new(),
+
+        #[label = "A bool"]
+        b: bool = true,
     }
 }
 

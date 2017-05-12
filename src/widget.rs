@@ -20,6 +20,18 @@ lazy_static! {
 </div>
         "#).unwrap();
 
+        handlebars.register_template_string("checkbox", r#"
+<div>
+    <span class="tunapanel_label">{{ label }}</span>
+    <input
+        type="checkbox"
+        class="tunapanel_widget"
+        {{#if value}}checked{{/if}}
+        tunapanel_name="{{ name }}"
+        tunapanel_conv="checkbox">
+</div>
+        "#).unwrap();
+
         handlebars
     };
 }
@@ -32,7 +44,7 @@ struct TextBox<'a> {
     conv: &'a str,
 }
 
-fn text_box<V>(name: &str, value: V, label: &str, conv: Option<&str>)
+fn text_box<V>(name: &str, value: V, label: &str, conv: &str)
     -> HTML
     where V: Display
 {
@@ -40,8 +52,15 @@ fn text_box<V>(name: &str, value: V, label: &str, conv: Option<&str>)
         name: name,
         value: &format!("{}", value),
         label: label,
-        conv: conv.unwrap_or(""),
+        conv: conv,
     }).unwrap()
+}
+
+#[derive(Serialize)]
+struct Checkbox<'a> {
+    name: &'a str,
+    value: bool,
+    label: &'a str,
 }
 
 pub trait Controllable {
@@ -50,7 +69,17 @@ pub trait Controllable {
 
 impl Controllable for str {
     fn widget(&self, name: &str, label: &str) -> HTML {
-        text_box(name, self, label, None)
+        text_box(name, self, label, "none")
+    }
+}
+
+impl Controllable for bool {
+    fn widget(&self, name: &str, label: &str) -> HTML {
+        HANDLEBARS.render("checkbox", &Checkbox {
+            name: name,
+            value: *self,
+            label: label,
+        }).unwrap()
     }
 }
 
@@ -58,7 +87,7 @@ macro_rules! controllable_number {
     ($num_ty:ty) => {
         impl Controllable for $num_ty {
             fn widget(&self, name: &str, label: &str) -> HTML {
-                text_box(name, self, label, Some("number"))
+                text_box(name, self, label, "number")
             }
         }
     };

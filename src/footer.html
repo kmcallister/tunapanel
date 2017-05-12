@@ -25,7 +25,9 @@
 <script>
 $(function () {
     let conversions = {
-        number: Number
+        none:     function (elem) { return elem.value; },
+        number:   function (elem) { return Number(elem.value); },
+        checkbox: function (elem) { return elem.checked; }
     };
 
     function update_complete(jqxhr, status) {
@@ -43,14 +45,10 @@ $(function () {
         let obj = {};
 
         $(".tunapanel_widget").each(function (i, elem) {
-            let value = elem.value;
             let name = elem.getAttribute('tunapanel_name');
             let conv = elem.getAttribute('tunapanel_conv');
 
-            if (conv) {
-                value = conversions[conv](value);
-            }
-
+            let value = conversions[conv](elem);
             obj[name] = value;
         });
 

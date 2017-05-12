@@ -88,6 +88,7 @@ mod test {
             #[label = "isize"] f_isize: isize = 0,
             #[label = "f32"]   f_f32:   f32   = 0.0,
             #[label = "f64"]   f_f64:   f64   = 0.0,
+            #[label = "bool"]  f_bool:  bool  = false,
         }
     }
 
@@ -97,7 +98,7 @@ mod test {
 
         for name in &["u8", "u16", "u32", "u64", "usize",
                       "i8", "i16", "i32", "i64", "isize",
-                      "f32", "f64"] {
+                      "f32", "f64", "bool"] {
             let search = format!(r#"tunapanel_name="f_{}""#, name);
             assert!(html.contains(&search));
         }
