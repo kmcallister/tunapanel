@@ -1,10 +1,12 @@
+use serde::de::DeserializeOwned;
+
 use widget::HTML;
 
-pub trait Panel {
+pub trait Panel: DeserializeOwned {
     fn widgets() -> HTML;
 }
 
-fn panel_html<P: Panel>() -> HTML {
+pub fn panel_html<P: Panel>() -> HTML {
     let mut html = String::new();
 
     html.push_str(&<P as Panel>::widgets());

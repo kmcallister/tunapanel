@@ -24,6 +24,10 @@
 
 <script>
 $(function () {
+    let conversions = {
+        number: Number
+    };
+
     function update_complete(jqxhr, status) {
         let elem = $("#tunapanel_status");
         elem.text(status);
@@ -39,12 +43,20 @@ $(function () {
         let obj = {};
 
         $(".tunapanel_widget").each(function (i, elem) {
-            obj[elem.getAttribute("tunapanel_name")] = elem.value;
+            let value = elem.value;
+            let name = elem.getAttribute('tunapanel_name');
+            let conv = elem.getAttribute('tunapanel_conv');
+
+            if (conv !== null) {
+                value = conversions[conv](value);
+            }
+
+            obj[name] = value;
         });
 
         $.ajax({
             url:      "/update",
-            method:   "PUT",
+            method:   "POST",
             data:     JSON.stringify(obj),
             complete: update_complete,
             timeout:  5000,
