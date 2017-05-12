@@ -9,36 +9,37 @@ lazy_static! {
         let mut handlebars = Handlebars::new();
 
         handlebars.register_template_string("text_box", r#"
-<div>
-    <span class="tunapanel_label">{{ label }}</span>
-    <input
+<tr>
+    <th class="tunapanel_label">{{ label }}</th>
+    <td><input
         type="text"
-        class="tunapanel_widget"
+        class="form-control tunapanel_widget"
         value="{{ value }}"
         tunapanel_name="{{ name }}"
-        tunapanel_conv="{{ conv }}">
-</div>
+        tunapanel_conv="{{ conv }}"></td>
+</tr>
         "#).unwrap();
 
         handlebars.register_template_string("checkbox", r#"
-<div>
-    <span class="tunapanel_label">{{ label }}</span>
-    <input
+<tr>
+    <th class="tunapanel_label">{{ label }}</th>
+    <td><input
         type="checkbox"
-        class="tunapanel_widget"
+        class="checkbox tunapanel_widget"
         {{#if value}}checked{{/if}}
         tunapanel_name="{{ name }}"
-        tunapanel_conv="checkbox">
-</div>
+        tunapanel_conv="checkbox"></td>
+</tr>
         "#).unwrap();
 
         handlebars.register_template_string("button", r#"
-<div>
-    <input
+<tr>
+    <td></td>
+    <td><input
         type="button"
         value="{{ label }}"
-        class="tunapanel_button"
-        tunapanel_name="{{ name }}">
+        class="btn btn-default tunapanel_button"
+        tunapanel_name="{{ name }}"></td>
 </div>
         "#).unwrap();
 

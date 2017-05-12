@@ -9,6 +9,7 @@ pub trait Panel: DeserializeOwned {
 pub fn panel_html<P: Panel>() -> HTML {
     let mut html = String::new();
 
+    html.push_str(::HTML_HEADER);
     html.push_str(&<P as Panel>::widgets());
     html.push_str(::HTML_FOOTER);
 

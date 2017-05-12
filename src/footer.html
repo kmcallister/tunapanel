@@ -1,26 +1,8 @@
-<div>
-    Status: <span id="tunapanel_status"></span>
-</div>
-
-<script
-    src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous">
-</script>
-
-<style>
-#tunapanel_status {
-    font-weight: bold;
-}
-
-.tunapanel_success {
-    color: #00ff00;
-}
-
-.tunapanel_failure {
-    color: #ff0000;
-}
-</style>
+<tr>
+    <td id="tunapanel_status"></td>
+</tr>
+</table>
+</div></div></div>
 
 <script>
 $(function () {
@@ -32,12 +14,13 @@ $(function () {
 
     function update_complete(jqxhr, status) {
         let elem = $("#tunapanel_status");
-        elem.text(status);
 
         if (status === "success") {
-            elem.attr("class", "tunapanel_success");
+            elem.attr("class", "label label-success");
+            elem.text("Success");
         } else {
-            elem.attr("class", "tunapanel_failure");
+            elem.attr("class", "label label-danger");
+            elem.text("Failure");
         }
     }
 
@@ -78,3 +61,5 @@ $(function () {
     });
 });
 </script>
+
+</body>

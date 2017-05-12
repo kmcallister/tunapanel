@@ -26,5 +26,8 @@ mod server;
 pub use panel::Panel;
 pub use server::{ServerConfig, serve};
 
+static HTML_HEADER: &'static str
+    = include_str!("header.html");
+
 static HTML_FOOTER: &'static str
     = include_str!("footer.html");
