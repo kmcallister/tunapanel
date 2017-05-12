@@ -20,9 +20,10 @@ extern crate log;
 mod macros;
 pub mod errors;
 pub mod widget;
-pub mod panel;
+mod panel;
 mod server;
 
+pub use panel::Panel;
 pub use server::{ServerConfig, serve};
 
 static HTML_FOOTER: &'static str

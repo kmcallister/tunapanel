@@ -27,7 +27,7 @@ macro_rules! tunapanel {
             }
         }
 
-        impl $crate::panel::Panel for $struct_name {
+        impl $crate::Panel for $struct_name {
             fn widgets() -> $crate::widget::HTML {
                 use $crate::widget::Controllable;
 
