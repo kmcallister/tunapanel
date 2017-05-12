@@ -8,40 +8,18 @@ lazy_static! {
     static ref HANDLEBARS: Handlebars = {
         let mut handlebars = Handlebars::new();
 
-        handlebars.register_template_string("text_box", r#"
-<tr>
-    <th class="tunapanel_label">{{ label }}</th>
-    <td><input
-        type="text"
-        class="form-control tunapanel_widget"
-        value="{{ value }}"
-        tunapanel_name="{{ name }}"
-        tunapanel_conv="{{ conv }}"></td>
-</tr>
-        "#).unwrap();
+        macro_rules! register {
+            ($name:expr) => {
+                handlebars.register_template_string(
+                    $name,
+                    include_str!(concat!("templates/", $name, ".html")))
+                .unwrap();
+            }
+        }
 
-        handlebars.register_template_string("checkbox", r#"
-<tr>
-    <th class="tunapanel_label">{{ label }}</th>
-    <td><input
-        type="checkbox"
-        class="checkbox tunapanel_widget"
-        {{#if value}}checked{{/if}}
-        tunapanel_name="{{ name }}"
-        tunapanel_conv="checkbox"></td>
-</tr>
-        "#).unwrap();
-
-        handlebars.register_template_string("button", r#"
-<tr>
-    <td></td>
-    <td><input
-        type="button"
-        value="{{ label }}"
-        class="btn btn-default tunapanel_button"
-        tunapanel_name="{{ name }}"></td>
-</div>
-        "#).unwrap();
+        register!("text_box");
+        register!("checkbox");
+        register!("button");
 
         handlebars
     };

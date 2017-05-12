@@ -52,7 +52,7 @@ mod test {
 
         assert!(html.contains(r#"tunapanel_name="x""#));
         assert!(html.contains(r#"tunapanel_name="y""#));
-        assert!(html.contains(r#"Status: <span id="tunapanel_status"></span>"#));
+        assert!(html.contains(r#"<td id="tunapanel_status"></td>"#));
         assert!(html.contains(r#"https://code.jquery.com"#));
         assert!(html.contains(r#"JSON.stringify(obj)"#));
     }

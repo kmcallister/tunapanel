@@ -27,7 +27,7 @@ pub use panel::Panel;
 pub use server::{ServerConfig, serve};
 
 static HTML_HEADER: &'static str
-    = include_str!("header.html");
+    = include_str!("templates/header.html");
 
 static HTML_FOOTER: &'static str
-    = include_str!("footer.html");
+    = include_str!("templates/footer.html");
