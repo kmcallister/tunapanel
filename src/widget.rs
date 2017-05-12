@@ -32,12 +32,22 @@ lazy_static! {
 </div>
         "#).unwrap();
 
+        handlebars.register_template_string("button", r#"
+<div>
+    <input
+        type="button"
+        value="{{ label }}"
+        class="tunapanel_button"
+        tunapanel_name="{{ name }}">
+</div>
+        "#).unwrap();
+
         handlebars
     };
 }
 
 #[derive(Serialize)]
-struct TextBox<'a> {
+struct TextBoxFields<'a> {
     name: &'a str,
     value: &'a str,
     label: &'a str,
@@ -48,7 +58,7 @@ fn text_box<V>(name: &str, value: V, label: &str, conv: &str)
     -> HTML
     where V: Display
 {
-    HANDLEBARS.render("text_box", &TextBox {
+    HANDLEBARS.render("text_box", &TextBoxFields {
         name: name,
         value: &format!("{}", value),
         label: label,
@@ -57,9 +67,15 @@ fn text_box<V>(name: &str, value: V, label: &str, conv: &str)
 }
 
 #[derive(Serialize)]
-struct Checkbox<'a> {
+struct CheckboxFields<'a> {
     name: &'a str,
     value: bool,
+    label: &'a str,
+}
+
+#[derive(Serialize)]
+struct ButtonFields<'a> {
+    name: &'a str,
     label: &'a str,
 }
 
@@ -75,7 +91,7 @@ impl Controllable for str {
 
 impl Controllable for bool {
     fn widget(&self, name: &str, label: &str) -> HTML {
-        HANDLEBARS.render("checkbox", &Checkbox {
+        HANDLEBARS.render("checkbox", &CheckboxFields {
             name: name,
             value: *self,
             label: label,
@@ -105,3 +121,21 @@ controllable_number!(u64);
 controllable_number!(usize);
 controllable_number!(f32);
 controllable_number!(f64);
+
+#[derive(Debug, Deserialize)]
+pub struct Button(pub bool);
+
+impl Button {
+    pub fn new() -> Button {
+        Button(false)
+    }
+}
+
+impl Controllable for Button {
+    fn widget(&self, name: &str, label: &str) -> HTML {
+        HANDLEBARS.render("button", &ButtonFields {
+            name: name,
+            label: label,
+        }).unwrap()
+    }
+}

@@ -5,6 +5,7 @@ extern crate serde_derive;
 extern crate tunapanel;
 
 use tunapanel::ServerConfig;
+use tunapanel::widget::Button;
 
 tunapanel! {
     #[derive(Debug)]
@@ -17,6 +18,12 @@ tunapanel! {
 
         #[label = "A bool"]
         b: bool = true,
+
+        #[label = "A button"]
+        but1: Button = Button::new(),
+
+        #[label = "Another button"]
+        but2: Button = Button::new(),
     }
 }
 

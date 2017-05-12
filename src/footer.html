@@ -41,7 +41,7 @@ $(function () {
         }
     }
 
-    function update() {
+    function update(button_name) {
         let obj = {};
 
         $(".tunapanel_widget").each(function (i, elem) {
@@ -50,6 +50,11 @@ $(function () {
 
             let value = conversions[conv](elem);
             obj[name] = value;
+        });
+
+        $(".tunapanel_button").each(function (i, elem) {
+            let name = elem.getAttribute('tunapanel_name');
+            obj[name] = (button_name === name);
         });
 
         $.ajax({
@@ -64,5 +69,12 @@ $(function () {
     $(".tunapanel_widget")
         .change(update)
         .keyup(update);
+
+    $(".tunapanel_button").each(function (i, elem) {
+        let name = elem.getAttribute('tunapanel_name');
+        $(elem).click(function () {
+            update(name);
+        });
+    });
 });
 </script>
