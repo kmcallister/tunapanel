@@ -47,7 +47,7 @@ $(function () {
             let name = elem.getAttribute('tunapanel_name');
             let conv = elem.getAttribute('tunapanel_conv');
 
-            if (conv !== null) {
+            if (conv) {
                 value = conversions[conv](value);
             }
 

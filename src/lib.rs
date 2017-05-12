@@ -1,18 +1,20 @@
 extern crate serde;
 extern crate serde_json;
 extern crate hyper;
+extern crate env_logger;
+extern crate handlebars;
+
+#[macro_use]
+extern crate lazy_static;
 
 #[macro_use]
 extern crate error_chain;
 
-#[cfg(test)]
 #[macro_use]
 extern crate serde_derive;
 
 #[macro_use]
 extern crate log;
-
-extern crate env_logger;
 
 #[macro_use]
 mod macros;

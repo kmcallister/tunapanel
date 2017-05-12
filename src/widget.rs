@@ -1,27 +1,47 @@
 use std::fmt::Display;
 
+use handlebars::Handlebars;
+
 pub type HTML = String;
 
-pub fn text_box<V>(name: &str, value: V, label: &str, conv: Option<&str>)
+lazy_static! {
+    static ref HANDLEBARS: Handlebars = {
+        let mut handlebars = Handlebars::new();
+
+        handlebars.register_template_string("text_box", r#"
+<div>
+    <span class="tunapanel_label">{{ label }}</span>
+    <input
+        type="text"
+        class="tunapanel_widget"
+        value="{{ value }}"
+        tunapanel_name="{{ name }}"
+        tunapanel_conv="{{ conv }}">
+</div>
+        "#).unwrap();
+
+        handlebars
+    };
+}
+
+#[derive(Serialize)]
+struct TextBox<'a> {
+    name: &'a str,
+    value: &'a str,
+    label: &'a str,
+    conv: &'a str,
+}
+
+fn text_box<V>(name: &str, value: V, label: &str, conv: Option<&str>)
     -> HTML
     where V: Display
 {
-    let mut attrs = format!(
-        r#"type="text" value="{}" class="tunapanel_widget" tunapanel_name="{}""#,
-        value, name);
-
-    if let Some(conv) = conv {
-        attrs.push_str(r#" tunapanel_conv=""#);
-        attrs.push_str(conv);
-        attrs.push_str(r#"""#);
-    }
-
-    format!(r#"
-<div>
-    <span class="tunapanel_label">{}</span>
-    <input {}>
-</div>
-    "#, label, attrs)
+    HANDLEBARS.render("text_box", &TextBox {
+        name: name,
+        value: &format!("{}", value),
+        label: label,
+        conv: conv.unwrap_or(""),
+    }).unwrap()
 }
 
 pub trait Controllable {
