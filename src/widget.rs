@@ -4,6 +4,7 @@
 //! In addition there are some special widgets.
 
 use std::fmt::Display;
+use std::default::Default;
 
 use templates::{HANDLEBARS, HTML};
 
@@ -15,9 +16,9 @@ struct TextBoxFields<'a> {
     conv: &'a str,
 }
 
-fn text_box<V>(name: &str, value: V, label: &str, conv: &str)
+fn text_box<V>(name: &str, value: &V, label: &str, conv: &str)
     -> HTML
-    where V: Display
+    where V: Display + ?Sized
 {
     HANDLEBARS.render("text_box", &TextBoxFields {
         name: name,
@@ -95,6 +96,12 @@ impl Button {
     /// Create a button.
     pub fn new() -> Button {
         Button(false)
+    }
+}
+
+impl Default for Button {
+    fn default() -> Button {
+        Button::new()
     }
 }
 
