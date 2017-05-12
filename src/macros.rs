@@ -9,12 +9,12 @@ macro_rules! tunapanel {
             )*
         }
     ) => {
-         $(#[$attr])*
-         #[derive(Deserialize)]
-         struct $struct_name {
-            $(
-                $field_name: $field_ty,
-            )*
+        $(#[$attr])*
+        #[derive(Deserialize)]
+        struct $struct_name {
+           $(
+               $field_name: $field_ty,
+           )*
         }
 
         impl ::std::default::Default for $struct_name {
