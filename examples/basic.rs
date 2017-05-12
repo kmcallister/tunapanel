@@ -1,10 +1,6 @@
-#[macro_use]
-extern crate serde_derive;
+#[macro_use] extern crate serde_derive;
+#[macro_use] extern crate tunapanel;
 
-#[macro_use]
-extern crate tunapanel;
-
-use tunapanel::ServerConfig;
 use tunapanel::widget::Button;
 
 tunapanel! {
@@ -29,11 +25,7 @@ tunapanel! {
 }
 
 fn main() {
-    let server_config: ServerConfig = Default::default();
-
-    println!("Listening on {}", &server_config.listen_on);
-
-    tunapanel::serve::<Panel, _>(server_config, |p| {
+    tunapanel::serve::<Panel, _>(|p| {
         println!("Panel update: {:?}", p);
     }).unwrap();
 }

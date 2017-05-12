@@ -26,4 +26,4 @@ mod server;
 
 pub use templates::HTML;
 pub use panel::Panel;
-pub use server::{ServerConfig, serve};
+pub use server::{ServerConfig, serve, serve_with_config};

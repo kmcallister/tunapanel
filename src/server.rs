@@ -11,18 +11,27 @@ use errors::Result;
 use panel::{Panel, panel_html};
 
 pub struct ServerConfig {
+    pub verbose: bool,
     pub listen_on: String,
 }
 
 impl Default for ServerConfig {
     fn default() -> ServerConfig {
         ServerConfig {
+            verbose: true,
             listen_on: "127.0.0.1:1337".to_owned(),
         }
     }
 }
 
-pub fn serve<P, F>(cfg: ServerConfig, f: F) -> Result<()>
+pub fn serve<P, F>(f: F) -> Result<()>
+    where P: Panel,
+          F: Fn(P) + Sync + Send + 'static,
+{
+    serve_with_config::<P, _>(Default::default(), f)
+}
+
+pub fn serve_with_config<P, F>(cfg: ServerConfig, f: F) -> Result<()>
     where P: Panel,
           F: Fn(P) + Sync + Send + 'static,
 {
@@ -67,6 +76,10 @@ pub fn serve<P, F>(cfg: ServerConfig, f: F) -> Result<()>
             }
         }
     });
+
+    if cfg.verbose {
+        println!("Listening on {}", cfg.listen_on);
+    }
 
     Ok(())
 }
