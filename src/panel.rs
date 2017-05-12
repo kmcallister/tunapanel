@@ -73,4 +73,33 @@ mod test {
         assert!(html.contains(r#"&amp; another `test%"#));
         assert!(html.contains(r#""Attribute &quot; escaping '""#));
     }
+
+    tunapanel! {
+        struct Types {
+            #[label = "u8"]    f_u8:    u8    = 0,
+            #[label = "u16"]   f_u16:   u16   = 0,
+            #[label = "u32"]   f_u32:   u32   = 0,
+            #[label = "u64"]   f_u64:   u64   = 0,
+            #[label = "usize"] f_usize: usize = 0,
+            #[label = "i8"]    f_i8:    i8    = 0,
+            #[label = "i16"]   f_i16:   i16   = 0,
+            #[label = "i32"]   f_i32:   i32   = 0,
+            #[label = "i64"]   f_i64:   i64   = 0,
+            #[label = "isize"] f_isize: isize = 0,
+            #[label = "f32"]   f_f32:   f32   = 0.0,
+            #[label = "f64"]   f_f64:   f64   = 0.0,
+        }
+    }
+
+    #[test]
+    fn types() {
+        let html = super::panel_html::<Types>();
+
+        for name in &["u8", "u16", "u32", "u64", "usize",
+                      "i8", "i16", "i32", "i64", "isize",
+                      "f32", "f64"] {
+            let search = format!(r#"tunapanel_name="f_{}""#, name);
+            assert!(html.contains(&search));
+        }
+    }
 }
