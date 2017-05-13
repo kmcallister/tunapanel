@@ -62,28 +62,21 @@ impl Controllable for bool {
     }
 }
 
-macro_rules! controllable_number {
-    ($num_ty:ty) => {
-        impl Controllable for $num_ty {
-            fn widget(&self, name: &str, label: &str) -> HTML {
-                text_box(name, self, label, "number")
+macro_rules! controllable_numbers {
+    ($($num_ty:ty),*) => {
+        $(
+            impl Controllable for $num_ty {
+                fn widget(&self, name: &str, label: &str) -> HTML {
+                    text_box(name, self, label, "number")
+                }
             }
-        }
+        )*
     };
 }
 
-controllable_number!(i8);
-controllable_number!(i16);
-controllable_number!(i32);
-controllable_number!(i64);
-controllable_number!(isize);
-controllable_number!(u8);
-controllable_number!(u16);
-controllable_number!(u32);
-controllable_number!(u64);
-controllable_number!(usize);
-controllable_number!(f32);
-controllable_number!(f64);
+controllable_numbers!(i8, i16, i32, i64, isize,
+                      u8, u16, u32, u64, usize,
+                      f32, f64);
 
 /// A button.
 ///
