@@ -41,11 +41,12 @@ $(function () {
         });
 
         $.ajax({
-            url:      "/update",
-            method:   "POST",
-            data:     JSON.stringify(obj),
-            complete: update_complete,
-            timeout:  5000,
+            url:         "/update",
+            method:      "POST",
+            contentType: "application/json",
+            data:        JSON.stringify(obj),
+            complete:    update_complete,
+            timeout:     5000,
         });
     }
 
