@@ -1,5 +1,6 @@
 # tunapanel: Autogenerate live Web-based control panels
 
+![crates.io badge](https://img.shields.io/crates/v/tunapanel.svg)
 ![Travis CI badge](https://api.travis-ci.org/kmcallister/tunapanel.svg?branch=master)
 
 [API documentation](https://docs.rs/tunapanel)
