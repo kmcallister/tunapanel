@@ -45,6 +45,21 @@ pub fn serve<P, F>(f: F) -> Result<()>
     serve_with_config::<P, _>(Default::default(), f)
 }
 
+/// Serve a panel on a specific port.
+///
+/// `f` is the callback for panel updates.
+pub fn serve_on_port<P, F>(port: u16, f: F) -> Result<()>
+    where P: Panel,
+          F: Fn(P) + Sync + Send + 'static,
+{
+    let config = ServerConfig{
+        verbose: true,
+        listen_on: format!("127.0.0.1:{}", port)
+    };
+
+    serve_with_config::<P, _>(config, f)
+}
+
 /// Serve a panel and configure the server.
 ///
 /// `f` is the callback for panel updates.
