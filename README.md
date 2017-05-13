@@ -40,7 +40,7 @@ tunapanel! {
 }
 
 fn main() {
-    tunapanel::serve::<Panel, _>(|p| {
+    tunapanel::serve(|p: Panel| {
         println!("Panel update: {:?}", p);
     }).unwrap();
 }
