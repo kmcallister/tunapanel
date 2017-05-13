@@ -6,6 +6,30 @@ macro_rules! tunapanel {
     (
         #[title = $title:expr]
         $(#[$attr:meta])*
+        struct $struct_name:ident $body:tt
+    ) => {
+        tunapanel! { @VIS(struct),
+            #[title = $title]
+            $(#[$attr])*
+            struct $struct_name $body
+        }
+    };
+
+    (
+        #[title = $title:expr]
+        $(#[$attr:meta])*
+        pub struct $struct_name:ident $body:tt
+    ) => {
+        tunapanel! { @VIS(pub struct),
+            #[title = $title]
+            $(#[$attr])*
+            struct $struct_name $body
+        }
+    };
+
+    (@VIS($($vis:tt)*),
+        #[title = $title:expr]
+        $(#[$attr:meta])*
         struct $struct_name:ident {
             $(
                 #[label = $field_label:expr]
@@ -15,9 +39,9 @@ macro_rules! tunapanel {
     ) => {
         $(#[$attr])*
         #[derive(Deserialize)]
-        struct $struct_name {
+        $($vis)* $struct_name {
            $(
-               $field_name: $field_ty,
+               pub $field_name: $field_ty,
            )*
         }
 
@@ -51,5 +75,5 @@ macro_rules! tunapanel {
                 html
             }
         }
-    }
+    };
 }

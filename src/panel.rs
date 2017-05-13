@@ -35,6 +35,7 @@ pub fn panel_html<P: Panel>() -> HTML {
 
 #[cfg(test)]
 mod test {
+    use std::default::Default;
     use serde_json;
     use widget::Button;
 
@@ -128,5 +129,20 @@ mod test {
             let search = format!(r#"tunapanel_name="f_{}""#, name);
             assert!(html.contains(&search));
         }
+    }
+
+    mod inner {
+        tunapanel! {
+            #[title = "test panel"]
+            pub struct Panel {
+                #[label = "A float"]
+                x: f32    = 0.0,
+            }
+        }
+    }
+
+    #[test]
+    fn pub_panel() {
+        let _p = inner::Panel::default();
     }
 }
