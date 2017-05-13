@@ -13,12 +13,15 @@ use panel::{Panel, panel_html};
 /// Server configuration.
 pub struct ServerConfig {
     /// Whether to print messages, such as the listen address.
+    ///
+    /// Default: `true`
     pub verbose: bool,
 
     /// IP address and port on which to listen.
     ///
-    /// This is a string of the form `"127.0.0.1:1337"`.
-    /// Use `"0.0.0.0:1337"` to listen on all network
+    /// Default: `"127.0.0.1:1337"`
+    ///
+    /// Use e.g. `"0.0.0.0:1337"` to listen on all network
     /// interfaces.
     pub listen_on: String,
 }
