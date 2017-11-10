@@ -7,6 +7,8 @@
 extern crate serde;
 extern crate serde_json;
 extern crate hyper;
+extern crate bytes;
+extern crate futures;
 extern crate handlebars;
 
 #[macro_use]
