@@ -10,13 +10,29 @@ use templates::{HANDLEBARS, HTML};
 
 #[derive(Serialize)]
 struct TextBoxFields<'a> {
+    input_type: &'a str,
     name: &'a str,
     value: &'a str,
     label: &'a str,
     conv: &'a str,
 }
 
-fn text_box<V>(name: &str, value: &V, label: &str, conv: &str)
+#[derive(Eq, PartialEq, Copy, Clone)]
+enum TextBoxType {
+    Text,
+    Password,
+}
+
+impl TextBoxType {
+    fn as_str(&self) -> &'static str {
+        match *self {
+            TextBoxType::Text => "text",
+            TextBoxType::Password => "password",
+        }
+    }
+}
+
+fn text_box<V>(name: &str, value: &V, label: &str, conv: &str, input_type: TextBoxType)
     -> HTML
     where V: Display + ?Sized
 {
@@ -25,6 +41,7 @@ fn text_box<V>(name: &str, value: &V, label: &str, conv: &str)
         value: &format!("{}", value),
         label: label,
         conv: conv,
+        input_type: input_type.as_str(),
     }).unwrap()
 }
 
@@ -48,7 +65,7 @@ pub trait Controllable {
 
 impl Controllable for str {
     fn widget(&self, name: &str, label: &str) -> HTML {
-        text_box(name, self, label, "none")
+        text_box(name, self, label, "none", TextBoxType::Text)
     }
 }
 
@@ -67,7 +84,7 @@ macro_rules! controllable_numbers {
         $(
             impl Controllable for $num_ty {
                 fn widget(&self, name: &str, label: &str) -> HTML {
-                    text_box(name, self, label, "number")
+                    text_box(name, self, label, "number", TextBoxType::Text)
                 }
             }
         )*
@@ -104,5 +121,29 @@ impl Controllable for Button {
             name: name,
             label: label,
         }).unwrap()
+    }
+}
+
+/// Password field
+///
+/// This is the same as `String` but rendered as password input.
+#[derive(Debug, Deserialize)]
+pub struct Password(pub String);
+
+impl Password {
+    pub fn new() -> Self {
+        Password(String::new())
+    }
+}
+
+impl Default for Password {
+    fn default() -> Self {
+        Password::new()
+    }
+}
+
+impl Controllable for Password {
+    fn widget(&self, name: &str, label: &str) -> HTML {
+        text_box(name, &self.0, label, "none", TextBoxType::Password)
     }
 }
